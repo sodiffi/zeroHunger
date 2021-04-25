@@ -37,25 +37,35 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  Widget management = (Container(
+  Widget management = (Center(
     child: Column(
       mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Row(
-          children: [Text("when harvest"), Text("May")],
+        Padding(
+          padding: EdgeInsets.all(5),
+          child: Text("when harvest : May"),
         ),
-        Row(
-          children: [
-            Text("water plants time"),
-            Text("12 hour"),
-            new CircularPercentIndicator(
-              radius: 60.0,
-              lineWidth: 5.0,
-              percent: 1.0,
-              center: new Text("100%"),
-              progressColor: Colors.green,
-            )
-          ],
+        Padding(
+          padding: EdgeInsets.all(5),
+          child: Text("water plants time : 12 hour"),
+        ),
+        Padding(
+          padding: EdgeInsets.all(5),
+          child: CircularPercentIndicator(
+            radius: 150.0,
+            lineWidth: 7.0,
+            percent: 0.7,
+            center: new Text("left 3.6 hour"),
+            progressColor: Colors.green,
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.all(5),
+          child: OutlineButton(
+            onPressed: () {},
+            child: Text("My Product"),
+          ),
         )
       ],
     ),
@@ -96,41 +106,49 @@ class _MyHomePageState extends State<MyHomePage> {
   ));
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(),
-        body: bb,
-        bottomNavigationBar: BottomAppBar(),
-        drawer: Drawer(
-          child: ListView(
-            // Important: Remove any padding from the ListView.
-            padding: EdgeInsets.zero,
-            children: <Widget>[
-              DrawerHeader(
-                child: Image.asset("img/menubg.jpg"),
-                padding: EdgeInsets.zero,
-                margin: EdgeInsets.zero,
+    return Container(
+      color: Colors.white,
+      child: SafeArea(
+        top: false,
+        child: Scaffold(
+            appBar: AppBar(),
+            body: bb,
+            bottomNavigationBar: BottomAppBar(),
+            drawer: SafeArea(
+              child: Drawer(
+                child: ListView(
+                  // Important: Remove any padding from the ListView.
+                  padding: EdgeInsets.zero,
+                  children: <Widget>[
+                    DrawerHeader(
+                      child: Image.asset("img/menubg.jpg"),
+                      padding: EdgeInsets.zero,
+                      margin: EdgeInsets.zero,
+                    ),
+                    ListTile(
+                      title: Text('management'),
+                      onTap: () {
+                        setState(() {
+                          bb = management;
+                        });
+                        Navigator.pop(context);
+                      },
+                    ),
+                    ListTile(
+                      title: Text('purchase'),
+                      onTap: () {
+                        setState(() {
+                          bb = purchase();
+                        });
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ],
+                ),
               ),
-              ListTile(
-                title: Text('management'),
-                onTap: () {
-                  setState(() {
-                    bb = management;
-                  });
-                  Navigator.pop(context);
-                },
-              ),
-              ListTile(
-                title: Text('purchase'),
-                onTap: () {
-                  setState(() {
-                    bb = purchase();
-                  });
-                  Navigator.pop(context);
-                },
-              ),
-            ],
-          ),
-        ));
+            )),
+      ),
+    );
   }
 
   Widget sell() {
@@ -177,17 +195,32 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Widget product(CropBean info) {
     List<Widget> content = [
-      Padding(padding: EdgeInsets.all(5), child: Text(info.product)),
+      Padding(
+          padding: EdgeInsets.all(5),
+          child: Text(
+            info.product,
+            style: TextStyle(fontSize: 80),
+          )),
       Padding(
         padding: EdgeInsets.all(5),
-        child: Text("Farmer : " + info.name),
+        child: Text(
+          "Quota Price : " + info.quota.toString(),
+          style: TextStyle(fontSize: 50),
+        ),
       ),
       Padding(
         padding: EdgeInsets.all(5),
-        child: Text("Quota Price : " + info.quota.toString()),
+        child: Text(
+          "Farmer : " + info.name,
+          style: TextStyle(fontSize: 20),
+        ),
       ),
       Padding(
-          padding: EdgeInsets.all(5), child: Text("Origin : " + info.origin)),
+          padding: EdgeInsets.all(5),
+          child: Text(
+            "Origin : " + info.origin,
+            style: TextStyle(fontSize: 20),
+          )),
     ];
     return (Container(
       child: Column(
